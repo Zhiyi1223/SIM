@@ -99,7 +99,7 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 	// Registrar las prácticas/escenas del curso
 	//SceneManager::instance().registerScene<EmptyScene>("EscenaVacia");
-	SceneManager::instance().registerScene<P0S_Scene>("Escena 0");
+	SceneManager::instance().registerScene<P0S_Scene>("P0S_Scene");
 
 	// Cargar la escena inicial
 	SceneManager::instance().changeScene("EscenaVacia");

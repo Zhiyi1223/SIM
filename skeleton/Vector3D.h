@@ -10,8 +10,14 @@ public:
 	float x, y, z;
 
 	//Constructores
-	Vector3D(float x = 0, float y = 0, float z = 0);
-	Vector3D(const physx::PxVec3& v);
+	Vector3D(float x = 0, float y = 0, float z = 0): x(x), y(y), z(z)
+	{
+	}
+
+	Vector3D(const physx::PxVec3& v): x(v.x), y(v.y), z(v.z)
+	{
+	}
+
 
 	float magnitude() const {
 		return std::sqrt(x * x + y * y + z * z);
