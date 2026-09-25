@@ -23,6 +23,7 @@
 #include "SceneManager.h"
 #include "EmptyScene.h"
 #include "P0S_Scene.h"
+#include "Particle.h"
 
 #include <foundation/PxSimpleTypes.h>
 #include <PxPhysicsVersion.h> // <- Macros for PhysX version checking
@@ -49,6 +50,9 @@ PxPvd*                  gPvd        = NULL;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
+
+//practica 1a
+Particle* gParticle = nullptr;
 
 // Global variables for physics timing. We use a fixed timestep for physics simulation, and accumulate time to determine when to step the physics simulation.
 double gPhysicsTimeAccumulator = 0.0;
@@ -103,6 +107,8 @@ void initPhysics(bool interactive)
 
 	// Cargar la escena inicial
 	SceneManager::instance().changeScene("EscenaVacia");
+
+	gParticle = new Particle(Vector3D(0.0f, 0.0f, 0.0f),Vector3D(1.0f, 0.0f, 0.0f));
 	
 }
 
@@ -132,6 +138,12 @@ void stepPhysics(bool interactive, double t)
 		gPhysicsTimeAccumulator -= gFixedTimestep;
 	}
 	SceneManager::instance().update(t);
+
+	//llamar a integrate
+	if (gParticle != nullptr)
+	{
+		gParticle->integrate(t);
+	}
 }
 
 
@@ -140,6 +152,12 @@ void cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
 	 
+	if (gParticle != nullptr)
+	{
+		delete gParticle;
+		gParticle = nullptr;
+	}
+
 	// Clean scene and dispatcher first to avoid memory leaks
 	if (gScene) {
 		gScene->release();
