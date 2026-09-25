@@ -5,7 +5,7 @@
 class Particle
 {
 public:
-	Particle(Vector3 Pos, Vector3 Vel, Vector3 Acc);
+	Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping);
 	~Particle();
 
 	void integrate(double t);
@@ -16,5 +16,6 @@ private:
 	RenderItem* renderItem;
 
 	Vector3D acc;//acceleracion
+	float damping;
 };
 

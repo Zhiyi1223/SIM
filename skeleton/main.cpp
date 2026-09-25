@@ -108,7 +108,7 @@ void initPhysics(bool interactive)
 	// Cargar la escena inicial
 	SceneManager::instance().changeScene("EscenaVacia");
 
-	gParticle = new Particle(Vector3(0.0f, 0.0f, 0.0f),Vector3(1.0f, 0.0f, 0.0f), Vector3(0.0f,3.0f, 0.0f));
+	gParticle = new Particle(Vector3D(0.0f, 0.0f, 0.0f),Vector3D(1.0f, 0.0f, 0.0f), Vector3D(0.0f,3.0f, 0.0f), 0.5f);
 	
 }
 

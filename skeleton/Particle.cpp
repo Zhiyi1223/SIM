@@ -2,7 +2,7 @@
 
 using namespace physx;
 
-Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 Acc): vel(Vel), acc(Acc), pose(PxTransform(Pos)), renderItem(nullptr)
+Particle::Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping): vel(Vel), acc(Acc), damping(Damping), pose(PxTransform(Pos)), renderItem(nullptr)
 {
     PxSphereGeometry sphere(1.0f);
     PxShape* shape = CreateShape(sphere);
@@ -21,10 +21,12 @@ Particle::~Particle()
     }
 }
 
-//euler: pos nueva = pos actual + velocidad × tiempo
+
 void Particle::integrate(double t)
 {
-    vel += acc * t; //P1A2, primero la acc modifica la vel
-    //despues cambiar la posicion
+    vel += acc * t;
+    vel = vel * std::pow(damping, t);
+
+    //euler: pos nueva = pos actual + velocidad × tiempo
     pose.p += PxVec3(vel) * t;//con physx::PxVec3() convierte vel a PxVec3
 }
