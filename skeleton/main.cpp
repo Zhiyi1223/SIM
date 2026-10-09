@@ -23,6 +23,7 @@
 #include "SceneManager.h"
 #include "EmptyScene.h"
 #include "P0S_Scene.h"
+#include "P1S.h"
 #include "Particle.h"
 
 #include <foundation/PxSimpleTypes.h>
@@ -104,9 +105,10 @@ void initPhysics(bool interactive)
 	// Registrar las prácticas/escenas del curso
 	//SceneManager::instance().registerScene<EmptyScene>("EscenaVacia");
 	SceneManager::instance().registerScene<P0S_Scene>("P0S_Scene");
+	SceneManager::instance().registerScene<P1S>("P1S");
 
 	// Cargar la escena inicial
-	SceneManager::instance().changeScene("EscenaVacia");
+	SceneManager::instance().changeScene("P1S");
 
 	gParticle = new Particle(Vector3D(0.0f, 0.0f, 0.0f),Vector3D(1.0f, 0.0f, 0.0f), Vector3D(0.0f,3.0f, 0.0f), 0.5f);
 	
@@ -130,19 +132,20 @@ void stepPhysics(bool interactive, double t)
 	{
 		// simulate() arranca la simulación de forma asíncrona en el hilo de físicas
 		gScene->simulate(static_cast<PxReal>(gFixedTimestep));
-
+		//actualizar la escena con el paso fijo
+		SceneManager::instance().update(gFixedTimestep);
 		// fetchResults(true) bloquea el hilo de renderizado hasta que la física termine.
 		// En prácticas avanzadas es vital para que el renderizado no lea datos corruptos.
 		gScene->fetchResults(true);
 
 		gPhysicsTimeAccumulator -= gFixedTimestep;
 	}
-	SceneManager::instance().update(t);
+	
 
 	//llamar a integrate
 	if (gParticle != nullptr)
 	{
-		gParticle->integrate(t);
+		gParticle->integrateVerlet(t);
 	}
 }
 
