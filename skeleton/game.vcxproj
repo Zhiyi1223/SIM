@@ -264,6 +264,7 @@
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="P0S_Scene.cpp" />
+    <ClCompile Include="P12S.cpp" />
     <ClCompile Include="P1S.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Proyectil.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="core.hpp" />
     <ClInclude Include="EmptyScene.h" />
     <ClInclude Include="P0S_Scene.h" />
+    <ClInclude Include="P12S.h" />
     <ClInclude Include="P1S.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Proyectil.h" />
