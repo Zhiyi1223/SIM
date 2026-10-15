@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Particle.h"
+#include "Proyectil.h"
 
 class P1S :
     public Scene
@@ -16,6 +17,8 @@ public:
 private:
     Particle* mParticle = nullptr;
     int mIntegrator = 0;
+
+    std::vector<Proyectil*> projectiles;
 
 };
 

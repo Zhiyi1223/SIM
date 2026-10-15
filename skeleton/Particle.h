@@ -11,10 +11,10 @@ public:
 	void integrate(double t);
 
 	void integrateEuler(double t);
-	void integrateEulerSemiImplicit(double t);
+	virtual void integrateEulerSemiImplicit(double t);
 	void integrateVerlet(double t);
 
-private:
+protected:
 	Vector3 vel;
 	physx::PxTransform pose; // a render item le pasaremos la direccion de este pose, para q se actualice automaticamente
 	RenderItem* renderItem;
