@@ -2,7 +2,8 @@
 
 using namespace physx;
 
-Particle::Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping): vel(Vel), acc(Acc), damping(Damping), pose(PxTransform(Pos)), renderItem(nullptr)
+Particle::Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping, float LifeTime): 
+    vel(Vel), acc(Acc), damping(Damping), pose(PxTransform(Pos)), renderItem(nullptr), lifeTime(LifeTime)
 {
     PxSphereGeometry sphere(1.0f);
     PxShape* shape = CreateShape(sphere);
@@ -45,6 +46,9 @@ void Particle::integrateEuler(double t)
 
 void Particle::integrateEulerSemiImplicit(double t)
 {
+    //restar tiempo transcurrido, tiempo de vida disminuye independientemente del movimiento
+    lifeTime -= static_cast<float>(t);
+
     //actualizar velocidad
     vel += acc * t;
     //aplicar damping
@@ -63,4 +67,19 @@ void Particle::integrateVerlet(double t)
     pose.p = 2 * posAnt.p - posTemp.p + physx::PxVec3(acc) * t*t;
 
     acc = 0;
+}
+
+void Particle::setAcc(Vector3D newAcc)
+{
+    acc = newAcc;
+}
+
+bool Particle::isAlive() const
+{
+    return lifeTime > 0;
+}
+
+Vector3D Particle::getPosition() const
+{
+    return Vector3D(pose.p);
 }

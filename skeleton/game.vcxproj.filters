@@ -18,6 +18,9 @@
     <ClCompile Include="P1S.cpp" />
     <ClCompile Include="Proyectil.cpp" />
     <ClCompile Include="P12S.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="ParticleGenerator.cpp" />
+    <ClCompile Include="P2S.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -38,6 +41,9 @@
     <ClInclude Include="P1S.h" />
     <ClInclude Include="Proyectil.h" />
     <ClInclude Include="P12S.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="ParticleGenerator.h" />
+    <ClInclude Include="P2S.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

@@ -1,4 +1,5 @@
 #include "Proyectil.h"
+#include <iostream>
 
 Proyectil::Proyectil(Vector3D Pos, Vector3D Dir, float realVel, float simVel, float mass) : 
 	Particle(Pos, Dir.normalize()* simVel, Vector3D(0, 0, 0), 1.0f), realMass(mass), simGravity(0) 
@@ -8,8 +9,10 @@ Proyectil::Proyectil(Vector3D Pos, Vector3D Dir, float realVel, float simVel, fl
 
 void Proyectil::calculateValues(float realVel, float simVel) 
 {
-	float ratio = realVel / simVel;
-	simGravity = -9.81f / (ratio * ratio);
+	float ratio = simVel / realVel;
+	simGravity = -9.81f * (ratio * ratio);
+
+	//std::cout << simGravity << "\n";
 }
 
 void Proyectil::integrateEulerSemiImplicit(double t) 

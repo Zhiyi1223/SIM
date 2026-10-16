@@ -25,6 +25,7 @@
 #include "P0S_Scene.h"
 #include "P1S.h"
 #include "P12S.h"
+#include "P2S.h"
 #include "Particle.h"
 
 #include <foundation/PxSimpleTypes.h>
@@ -108,6 +109,7 @@ void initPhysics(bool interactive)
 	SceneManager::instance().registerScene<P0S_Scene>("P0S_Scene");
 	SceneManager::instance().registerScene<P1S>("P1S");
 	SceneManager::instance().registerScene<P12S>("P12S");
+	SceneManager::instance().registerScene<P2S>("P2S");
 
 	// Cargar la escena inicial
 	SceneManager::instance().changeScene("P12S");

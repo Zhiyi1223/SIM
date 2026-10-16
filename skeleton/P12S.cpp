@@ -17,6 +17,7 @@ void P12S::keyPress(unsigned char key,
 {
     float realVel = 0;
     float mass = 0;
+    float simVel = 0;
 
     switch (key)
     {
@@ -24,16 +25,19 @@ void P12S::keyPress(unsigned char key,
     case 'p': //pistola
         realVel = 290.0f;
         mass = 0.1f;
+        simVel = 20.0f;
         break;
 
     case 'c':
         realVel = 250.0f;
         mass = 15.0f;
+        simVel = 10.0f;
         break;
 
     case 'f': //proyectil fuerte
         realVel = 1800.0f;
         mass = 40.0f;
+        simVel = 30.0f;
         break;
 
     }
@@ -42,6 +46,6 @@ void P12S::keyPress(unsigned char key,
     {
         Vector3D dir(camera.q.rotate(physx::PxVec3(0, 0, -1)));
 
-            projectiles.push_back(new Proyectil(Vector3D(camera.p),dir,realVel,50.0f,mass));
+        projectiles.push_back(new Proyectil(Vector3D(camera.p),dir,realVel,simVel,mass));
     }
 }

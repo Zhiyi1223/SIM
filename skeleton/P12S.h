@@ -3,6 +3,7 @@
 #include <vector>
 #include "Proyectil.h"
 
+//usar tecla 2
 class P12S :
     public Scene
 {
