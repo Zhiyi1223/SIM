@@ -2,12 +2,15 @@
 
 ParticleGenerator::ParticleGenerator(Vector3D pos,Vector3D minVel, Vector3D maxVel,float rate, float life)
     : position(pos), minVelocity(minVel), maxVelocity(maxVel),emissionRate(rate), lifeTime(life), accumulator(0),
-    randomEngine(std::random_device{}())
+    randomEngine(std::random_device{}()), emitting(true), particleRadius(0.2f), particleColor(1, 1, 1, 1)
 {
 }
 
 void ParticleGenerator::update(ParticleSystem& system, float dt)
 {
+    if (!emitting)
+        return;
+
     accumulator += emissionRate * dt;
 
     while (accumulator >= 1.0f)
@@ -20,8 +23,23 @@ void ParticleGenerator::update(ParticleSystem& system, float dt)
 
         Vector3D velocity(distX(randomEngine),distY(randomEngine),distZ(randomEngine));
 
-        Particle* p = new Particle(position, velocity, Vector3D(0, -10, 0),1.0f, lifeTime);
+        Particle* p = new Particle(position, velocity, Vector3D(0, -10, 0),1.0f, lifeTime, particleRadius,particleColor);
 
         system.createParticle(p);
     }
+}
+
+void ParticleGenerator::setEmitting(bool value)
+{
+    emitting = value;
+}
+
+void ParticleGenerator::setPositionVariation(Vector3D variation)
+{
+    positionVariation = variation;
+}
+void ParticleGenerator::setAppearance(float radius, Vector4 color)
+{
+    particleRadius = radius;
+    particleColor = color;
 }

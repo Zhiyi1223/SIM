@@ -11,6 +11,9 @@ public:
         Vector3D maxVel, float rate, float life);
 
     void update(ParticleSystem& system, float dt);
+    void setEmitting(bool emitting);
+    void setPositionVariation(Vector3D variation);
+    void setAppearance(float radius, Vector4 color);
 
 private:
     Vector3D position;
@@ -22,5 +25,11 @@ private:
     float accumulator;
 
     std::mt19937 randomEngine;
+
+    //p2
+    bool emitting;
+    Vector3D positionVariation;
+    float particleRadius;
+    Vector4 particleColor;
 };
 

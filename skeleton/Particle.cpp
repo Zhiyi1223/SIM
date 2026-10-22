@@ -2,14 +2,13 @@
 
 using namespace physx;
 
-Particle::Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping, float LifeTime): 
+Particle::Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping, float LifeTime, float Radius, Vector4 Color):
     vel(Vel), acc(Acc), damping(Damping), pose(PxTransform(Pos)), renderItem(nullptr), lifeTime(LifeTime)
 {
-    PxSphereGeometry sphere(1.0f);
+    PxSphereGeometry sphere(0.5f);
     PxShape* shape = CreateShape(sphere);
 
-    renderItem = new RenderItem(shape,&pose,Vector4(1.0f, 0.0f, 0.0f, 1.0f));
-
+    renderItem = new RenderItem(shape,&pose, Color);
     shape->release();
 }
 

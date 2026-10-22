@@ -17,7 +17,7 @@ public:
 private:
     ParticleSystem system;
     ParticleGenerator fountain;
-    ParticleGenerator sparks;
-    ParticleGenerator mist;
+    ParticleGenerator chispas;
+    ParticleGenerator niebla;
 };
 

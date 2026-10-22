@@ -5,7 +5,7 @@
 class Particle
 {
 public:
-	Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping, float LifeTime = 2.0f);
+	Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping, float LifeTime = 2.0f, float Radius = 0.2f, Vector4 Color = { 1, 1, 1, 1 });
 	~Particle();
 
 	void integrate(double t);
