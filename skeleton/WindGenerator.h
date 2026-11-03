@@ -11,10 +11,12 @@ public:
 
     void updateForce(Particle* particle, float dt) override;
 
-private:
+protected:
     Vector3D windVelocity;
     Vector3D areaPosition;
     Vector3D areaSize;
     float coefficient;
+
+    bool isInArea(Vector3D pos);
 };
 

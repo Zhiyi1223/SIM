@@ -86,7 +86,6 @@ void P3S::cleanup()
 void P3S::keyPress(unsigned char key,const physx::PxTransform& camera)
 {
     PX_UNUSED(camera);
-    std::cout << "Tecla recibida: " << key << std::endl;
     switch (key)
     {
     case 'g':
@@ -94,7 +93,7 @@ void P3S::keyPress(unsigned char key,const physx::PxTransform& camera)
         std::cout << "Gravedad: " << (enableGravity ? "Activada" : "Desactivada") << std::endl;
         break;
 
-    case 'w':
+    case 'v':
         enableWind = !enableWind;
         std::cout << "Viento: " << (enableWind ? "Activado" : "Desactivado") << std::endl;
         break;

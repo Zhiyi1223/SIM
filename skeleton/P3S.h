@@ -4,6 +4,7 @@
 #include "ForceGenerator.h"
 #include "WindGenerator.h"
 #include "GravityGenerator.h"
+#include "TornadoGenerator.h"
 
 //usar tecla 4
 class P3S :
