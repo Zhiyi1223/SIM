@@ -34,7 +34,7 @@ void ParticleSystem::update(float dt)
         Vector3D pos = p->getPosition();
 
         // eliminar por tiempo de vida o por salir del espacio
-        if (!p->isAlive() ||pos.y < -20 || pos.y > 30 ||pos.x < -30 || pos.x > 30 ||pos.z < -30 || pos.z > 30)
+        if (!p->isAlive() ||pos.y < -50 || pos.y > 30 ||pos.x < -30 || pos.x > 30 ||pos.z < -30 || pos.z > 30)
         {
             delete p;
             particles.erase(particles.begin() + i);

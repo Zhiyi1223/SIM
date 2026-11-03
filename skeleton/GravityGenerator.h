@@ -8,11 +8,7 @@ public:
     {
     }
 
-    void updateForce(Particle* particle, float dt) override
-    {
-        PX_UNUSED(dt);
-        particle->addForce(gravity * particle->getMass());
-    }
+    void updateForce(Particle* particle, float dt) override;
 
 private:
     Vector3D gravity;
