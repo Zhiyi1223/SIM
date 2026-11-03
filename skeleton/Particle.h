@@ -18,9 +18,21 @@ public:
 	void setAcc(Vector3D newAcc);
 	bool isAlive() const;
 	Vector3D getPosition() const;
+	Vector3D getVelocity() const;
+
+	//p3
+	float getMass() const;
+	void setMass(float m);
+
+	void addForce(Vector3D force);
+	void clearForces();
 
 private:
 	float lifeTime;
+
+	//p3
+	float mass;
+	Vector3D forceAcc;
 
 protected:
 	Vector3 vel;

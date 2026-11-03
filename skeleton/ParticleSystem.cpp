@@ -1,6 +1,7 @@
 #include "ParticleSystem.h"
+#include "ForceGenerator.h"
 
-ParticleSystem::ParticleSystem()
+ParticleSystem::ParticleSystem() : acceleration(0, -10, 0)
 {
 }
 
@@ -26,8 +27,8 @@ void ParticleSystem::update(float dt)
     {
         Particle* p = particles[i];
 
-        // gravedad es igual para todas
-        p->setAcc(Vector3D(0, -10, 0));
+        // Aplicar la aceleracion directa configurada en el sistema
+        p->setAcc(acceleration);
         p->integrateEulerSemiImplicit(dt);
 
         Vector3D pos = p->getPosition();
@@ -42,5 +43,19 @@ void ParticleSystem::update(float dt)
         {
             i++;
         }
+    }
+}
+
+void ParticleSystem::setAcceleration(Vector3D newAcceleration)
+{
+    acceleration = newAcceleration;
+}
+
+void ParticleSystem::applyForceGenerator(
+    ForceGenerator& generator, float dt)
+{
+    for (Particle* p : particles)
+    {
+        generator.updateForce(p, dt);
     }
 }

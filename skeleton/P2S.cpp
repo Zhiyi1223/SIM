@@ -18,9 +18,9 @@ P2S::P2S(std::string name): Scene(name),
         Vector3D(1, 0.9f, 1),
         20, 5.0f)
 {
-    fountain.setAppearance(0.4f, Vector4(0.2f, 0.6f, 1.0f, 1.0f));
-    chispas.setAppearance(0.2f, Vector4(1.0f, 0.5f, 0.05f, 1.0f));
-    niebla.setAppearance(0.1f, Vector4(0.7f, 0.8f, 0.9f, 0.5f));
+    fountain.setAppearance(0.15f, Vector4(0.2f, 0.6f, 1.0f, 1.0f));
+    chispas.setAppearance(0.1f, Vector4(1.0f, 0.5f, 0.05f, 1.0f));
+    niebla.setAppearance(0.08f, Vector4(0.7f, 0.8f, 0.9f, 0.5f));
 
     niebla.setPositionVariation(Vector3D(10, 3, 10));
 

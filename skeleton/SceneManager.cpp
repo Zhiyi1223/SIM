@@ -3,6 +3,7 @@
 #include "P1S.h"
 #include "P12S.h"
 #include "P2S.h"
+#include "P3S.h"
 #include <iostream>
 
 // Solicita el cambio de escena. Si el nombre no está registrado, se escribe
@@ -68,6 +69,10 @@ void SceneManager::keyPress(unsigned char key, const physx::PxTransform& cameraT
     }
     if (key == '3') {
         changeScene("P2S");
+        return;
+    }
+    if (key == '4') {
+        changeScene("P3S");
         return;
     }
 
