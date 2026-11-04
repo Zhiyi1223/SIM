@@ -27,11 +27,19 @@ P3S::P3S(std::string name): Scene(name), emitter(Vector3D(0, 7, 0),
 
 void P3S::init()
 {
+    enableGravity = false;
+    enableWind = false;
+    enableTornado = false;
+
     // no aplicar gravedad directa a este sistema ya q la gravedad llegara mediante los generadores
     systemGravity.setAcceleration(Vector3D(0, 0, 0));
     systemWeakGravity.setAcceleration(Vector3D(0, 0, 0));
+
     systemAcceleration.setAcceleration(Vector3D(0, -10, 0));
     systemWind.setAcceleration(Vector3D(0, 0, 0));
+    systemExplosion.setAcceleration(Vector3D(0, 0, 0));
+
+    systemExplosion.addForceGenerator(&explosion);
 
     // particula 1: gravedad normal mediante fuerza
     Particle* p1 = new Particle(
@@ -41,7 +49,7 @@ void P3S::init()
         1.0f, 15.0f);
 
     p1->setMass(2.0f);
-    systemExplosion.createParticle(p1);
+    systemGravity.createParticle(p1);
 
     // particula 2: gravedad mas debil mediante fuerza
     Particle* p2 = new Particle(
@@ -51,7 +59,7 @@ void P3S::init()
         1.0f, 15.0f);
 
     p2->setMass(5.0f);
-    systemExplosion.createParticle(p2);
+    systemWeakGravity.createParticle(p2);
 
     // particula 3: gravedad aplicada directamente como acc constante
     Particle* p3 = new Particle(
@@ -61,13 +69,30 @@ void P3S::init()
         1.0f, 15.0f);
 
     p3->setMass(3.0f);
-    systemExplosion.createParticle(p3);
+    systemAcceleration.createParticle(p3);
 
-    //emitter.setEmitting(true);
-    /*std::cout << "Particulas creadas en P3S" << std::endl;
-    std::cout << "P1: " << p1->getPosition().x << std::endl;
-    std::cout << "P2: " << p2->getPosition().x << std::endl;
-    std::cout << "P3: " << p3->getPosition().x << std::endl;*/
+    // particula independientes para probar la explosion
+    Particle* p4 = new Particle(
+        Vector3D(-3, 7, 0),
+        Vector3D(0, 0, 0),
+        Vector3D(0, 0, 0),
+        1.0f, 15.0f);
+
+    Particle* p5 = new Particle(
+        Vector3D(3, 7, 0),
+        Vector3D(0, 0, 0),
+        Vector3D(0, 0, 0),
+        1.0f, 15.0f);
+
+    Particle* p6 = new Particle(
+        Vector3D(0, 10, 3),
+        Vector3D(0, 0, 0),
+        Vector3D(0, 0, 0),
+        1.0f, 15.0f);
+
+    systemExplosion.createParticle(p4);
+    systemExplosion.createParticle(p5);
+    systemExplosion.createParticle(p6);
 }
 
 void P3S::update(double dt)
@@ -77,38 +102,14 @@ void P3S::update(double dt)
     // Generar nuevas particulas
     emitter.update(systemWind, time);
 
-    //Activar o desactivar los generadores de gravedad
-    if (enableGravity)
-    {
-        systemGravity.applyForceGenerator(gravity, time);
-        systemWeakGravity.applyForceGenerator(weakGravity, time);
-    }
-
-    // El viento uniforme
-    if (enableWind)
-    {
-        systemWind.applyForceGenerator(wind, time);
-    }
-
-    // Torbellino
-    if (enableTornado)
-    {
-        systemWind.applyForceGenerator(tornado, time);
-    }
-
-    // Actualizar los sistemas
+     // Cada sistema aplica automaticamente sus generadores registrados
     systemGravity.update(time);
     systemWeakGravity.update(time);
     systemAcceleration.update(time);
     systemWind.update(time);
-
-    //aplicar fuerza de la explosion a las particulas
-    systemExplosion.applyForceGenerator(explosion, time);
-
-    // Actualizar el movimiento de las particulas
     systemExplosion.update(time);
 
-    // Actualizar el tiempo de la explosion
+    // Actualizar el tiempo de la explosion una sola vez
     explosion.updateTime(time);
 }
 
@@ -123,17 +124,49 @@ void P3S::keyPress(unsigned char key,const physx::PxTransform& camera)
     {
     case 'g':
         enableGravity = !enableGravity;
-        std::cout << "Gravedad: " << (enableGravity ? "Activada" : "Desactivada") << std::endl;
+
+        if (enableGravity)
+        {
+            systemGravity.addForceGenerator(&gravity);
+            systemWeakGravity.addForceGenerator(&weakGravity);
+        }
+        else
+        {
+            systemGravity.removeForceGenerator(&gravity);
+            systemWeakGravity.removeForceGenerator(&weakGravity);
+        }
+
+        std::cout << "Gravedad: "<< (enableGravity ? "Activada" : "Desactivada")<< std::endl;
         break;
 
     case 'v':
         enableWind = !enableWind;
-        std::cout << "Viento: " << (enableWind ? "Activado" : "Desactivado") << std::endl;
+
+        if (enableWind)
+        {
+            systemWind.addForceGenerator(&wind);
+        }
+        else
+        {
+            systemWind.removeForceGenerator(&wind);
+        }
+
+        std::cout << "Viento: "<< (enableWind ? "Activado" : "Desactivado")<< std::endl;
         break;
 
     case 't':
         enableTornado = !enableTornado;
-        std::cout << "Tornado: "<< (enableTornado ? "Activado" : "Desactivado") << std::endl;
+
+        if (enableTornado)
+        {
+            systemWind.addForceGenerator(&tornado);
+        }
+        else
+        {
+            systemWind.removeForceGenerator(&tornado);
+        }
+
+        std::cout << "Tornado: "<< (enableTornado ? "Activado" : "Desactivado")<< std::endl;
         break;
 
     case 'e':

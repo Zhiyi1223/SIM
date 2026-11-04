@@ -3,7 +3,7 @@
 #include "Particle.h"
 
 class ForceGenerator;
-
+class ParticleGenerator;
 //Guarda las particulas, actualiza movimiento y elimina las que ya no deben existir
 class ParticleSystem
 {
@@ -15,13 +15,16 @@ public:
     void update(float dt);
 
     //p3
-    void applyForceGenerator(ForceGenerator& generator, float dt);
+    void addForceGenerator(ForceGenerator* generator);
+    void removeForceGenerator(ForceGenerator* generator);
+
     void setAcceleration(Vector3D acceleration);
 
 private:
     std::vector<Particle*> particles;
 
     //p3
+    std::vector<ForceGenerator*> forceGenerators;
     Vector3D acceleration;
 };
 

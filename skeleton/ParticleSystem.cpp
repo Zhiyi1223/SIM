@@ -11,6 +11,7 @@ ParticleSystem::~ParticleSystem()
         delete p;
 
     particles.clear();
+    forceGenerators.clear();
 }
 
 void ParticleSystem::createParticle(Particle* p)
@@ -29,6 +30,12 @@ void ParticleSystem::update(float dt)
 
         // Aplicar la aceleracion directa configurada en el sistema
         p->setAcc(acceleration);
+        // Aplicar todos los generadores activos a esta particula
+        for (ForceGenerator* generator : forceGenerators)
+        {
+            p->applyForceGenerator(*generator, dt);
+        }
+
         p->integrateEulerSemiImplicit(dt);
 
         Vector3D pos = p->getPosition();
@@ -51,10 +58,24 @@ void ParticleSystem::setAcceleration(Vector3D newAcceleration)
     acceleration = newAcceleration;
 }
 
-void ParticleSystem::applyForceGenerator(ForceGenerator& generator, float dt)
+void ParticleSystem::addForceGenerator(ForceGenerator* generator)
 {
-    for (Particle* p : particles)
+    forceGenerators.push_back(generator);
+}
+
+void ParticleSystem::removeForceGenerator(ForceGenerator* generator)
+{
+    int i = 0;
+
+    while (i < forceGenerators.size())
     {
-        p->applyForceGenerator(generator, dt);
+        if (forceGenerators[i] == generator)
+        {
+            forceGenerators.erase(forceGenerators.begin() + i);
+        }
+        else
+        {
+            i++;
+        }
     }
 }
