@@ -18,7 +18,9 @@ P3S::P3S(std::string name): Scene(name), emitter(Vector3D(0, 7, 0),
     0.05f, 0.0f,
     Vector3D(-10, 0, -5),
     Vector3D(20, 15, 10),
-    1.0f, 0.0f)
+    1.0f, 0.0f),
+
+    explosion(Vector3D(0, 7, 0), 12.0f, 1.0f, 100000.0f)
 {
     emitter.setAppearance(0.15f, Vector4(0.2f, 0.8f, 1.0f, 1.0f));
 }
@@ -39,17 +41,17 @@ void P3S::init()
         1.0f, 15.0f);
 
     p1->setMass(2.0f);
-    systemGravity.createParticle(p1);
+    systemExplosion.createParticle(p1);
 
     // particula 2: gravedad mas debil mediante fuerza
     Particle* p2 = new Particle(
-        Vector3D(0, 7, 0),
+        Vector3D(0, 7, 4),
         Vector3D(0, 0, 0),
         Vector3D(0, 0, 0),
         1.0f, 15.0f);
 
     p2->setMass(5.0f);
-    systemWeakGravity.createParticle(p2);
+    systemExplosion.createParticle(p2);
 
     // particula 3: gravedad aplicada directamente como acc constante
     Particle* p3 = new Particle(
@@ -58,10 +60,10 @@ void P3S::init()
         Vector3D(0, 0, 0),
         1.0f, 15.0f);
 
-    p3->setMass(2.0f);
-    systemAcceleration.createParticle(p3);
+    p3->setMass(3.0f);
+    systemExplosion.createParticle(p3);
 
-    emitter.setEmitting(true);
+    //emitter.setEmitting(true);
     /*std::cout << "Particulas creadas en P3S" << std::endl;
     std::cout << "P1: " << p1->getPosition().x << std::endl;
     std::cout << "P2: " << p2->getPosition().x << std::endl;
@@ -99,6 +101,15 @@ void P3S::update(double dt)
     systemWeakGravity.update(time);
     systemAcceleration.update(time);
     systemWind.update(time);
+
+    //aplicar fuerza de la explosion a las particulas
+    systemExplosion.applyForceGenerator(explosion, time);
+
+    // Actualizar el movimiento de las particulas
+    systemExplosion.update(time);
+
+    // Actualizar el tiempo de la explosion
+    explosion.updateTime(time);
 }
 
 void P3S::cleanup()
@@ -123,6 +134,11 @@ void P3S::keyPress(unsigned char key,const physx::PxTransform& camera)
     case 't':
         enableTornado = !enableTornado;
         std::cout << "Tornado: "<< (enableTornado ? "Activado" : "Desactivado") << std::endl;
+        break;
+
+    case 'e':
+        explosion.beginExplosion();
+        std::cout << "BOOM!" << std::endl;
         break;
     }
 }

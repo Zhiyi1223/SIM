@@ -6,7 +6,6 @@ TornadoGenerator::TornadoGenerator(float K, float centerPull,Vector3D areaPositi
 
 void TornadoGenerator::updateForce(Particle* particle, float dt)
 {
-    PX_UNUSED(dt);
 
     Vector3D pos = particle->getPosition();
 

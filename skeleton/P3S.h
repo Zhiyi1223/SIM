@@ -6,6 +6,7 @@
 #include "GravityGenerator.h"
 #include "TornadoGenerator.h"
 #include "ParticleGenerator.h"
+#include "ExplosionGenerator.h"
 
 //usar tecla 4
 class P3S :
@@ -26,6 +27,9 @@ private:
     ParticleSystem systemWind;
 
     ParticleGenerator emitter;
+
+    ParticleSystem systemExplosion;
+    ExplosionGenerator explosion;
 
     GravityGenerator gravity;
     GravityGenerator weakGravity;
