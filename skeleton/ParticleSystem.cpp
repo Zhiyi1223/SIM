@@ -51,11 +51,10 @@ void ParticleSystem::setAcceleration(Vector3D newAcceleration)
     acceleration = newAcceleration;
 }
 
-void ParticleSystem::applyForceGenerator(
-    ForceGenerator& generator, float dt)
+void ParticleSystem::applyForceGenerator(ForceGenerator& generator, float dt)
 {
     for (Particle* p : particles)
     {
-        generator.updateForce(p, dt);
+        p->applyForceGenerator(generator, dt);
     }
 }

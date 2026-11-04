@@ -1,4 +1,5 @@
 #include "Particle.h"
+#include "ForceGenerator.h"
 
 using namespace physx;
 
@@ -112,4 +113,10 @@ void Particle::addForce(Vector3D force)
 void Particle::clearForces()
 {
     forceAcc = Vector3D(0, 0, 0);
+}
+
+
+void Particle::applyForceGenerator(ForceGenerator& generator, float dt)
+{
+    generator.updateForce(this, dt);
 }

@@ -2,6 +2,8 @@
 #include "RenderUtils.hpp"
 #include"Vector3D.h"
 
+class ForceGenerator;
+
 class Particle
 {
 public:
@@ -26,6 +28,8 @@ public:
 
 	void addForce(Vector3D force);
 	void clearForces();
+
+	void applyForceGenerator(ForceGenerator& generator, float dt);
 
 private:
 	float lifeTime;
