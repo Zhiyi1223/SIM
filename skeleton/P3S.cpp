@@ -5,6 +5,10 @@ P3S::P3S(std::string name): Scene(name),gravity(Vector3D(0, -10, 0)),weakGravity
     wind(Vector3D(5, 0, 0),    // vel del viento
         Vector3D(-10, 0, -5), // esquina de la zona
         Vector3D(20, 15, 10), // tam de la zona
+        1.0f),
+    tornado(0.05f, 0.0f,
+        Vector3D(-10, 0, -5),
+        Vector3D(20, 15, 10),
         1.0f)
 {
 }
@@ -70,6 +74,13 @@ void P3S::update(double dt)
         systemAcceleration.applyForceGenerator(wind, time);
     }
 
+    if (enableTornado)
+    {
+        systemGravity.applyForceGenerator(tornado, time);
+        systemWeakGravity.applyForceGenerator(tornado, time);
+        systemAcceleration.applyForceGenerator(tornado, time);
+    }
+
     // Gravedad directa para el tercer sistema
     systemAcceleration.setAcceleration(Vector3D(0, -10, 0));
 
@@ -96,6 +107,11 @@ void P3S::keyPress(unsigned char key,const physx::PxTransform& camera)
     case 'v':
         enableWind = !enableWind;
         std::cout << "Viento: " << (enableWind ? "Activado" : "Desactivado") << std::endl;
+        break;
+
+    case 't':
+        enableTornado = !enableTornado;
+        std::cout << "Tornado: "<< (enableTornado ? "Activado" : "Desactivado") << std::endl;
         break;
     }
 }

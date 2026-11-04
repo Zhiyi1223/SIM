@@ -28,7 +28,10 @@ private:
 
     WindGenerator wind;
 
+    TornadoGenerator tornado;
+
     bool enableGravity = true;
     bool enableWind = false;
+    bool enableTornado = false;
 };
 
