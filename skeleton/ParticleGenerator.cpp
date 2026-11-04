@@ -21,6 +21,13 @@ void ParticleGenerator::update(ParticleSystem& system, float dt)
         std::uniform_real_distribution<float> distY(minVelocity.y, maxVelocity.y);
         std::uniform_real_distribution<float> distZ(minVelocity.z, maxVelocity.z);
 
+        // Variacion aleatoria de la pos inicial
+        std::uniform_real_distribution<float> posX(-positionVariation.x, positionVariation.x);
+        std::uniform_real_distribution<float> posY(-positionVariation.y, positionVariation.y);
+        std::uniform_real_distribution<float> posZ(-positionVariation.z, positionVariation.z);
+
+        Vector3D particlePosition(position.x + posX(randomEngine),position.y + posY(randomEngine),position.z + posZ(randomEngine));
+
         Vector3D velocity(distX(randomEngine),distY(randomEngine),distZ(randomEngine));
 
         Particle* p = new Particle(position, velocity, Vector3D(0, -10, 0),1.0f, lifeTime, particleRadius,particleColor);
