@@ -5,11 +5,11 @@ P3S::P3S(std::string name): Scene(name),gravity(Vector3D(0, -10, 0)),weakGravity
     wind(Vector3D(5, 0, 0),    // vel del viento
         Vector3D(-10, 0, -5), // esquina de la zona
         Vector3D(20, 15, 10), // tam de la zona
-        1.0f),
+        1.0f, 0.0f),
     tornado(0.05f, 0.0f,
         Vector3D(-10, 0, -5),
         Vector3D(20, 15, 10),
-        1.0f)
+        1.0f, 0.0f)
 {
 }
 

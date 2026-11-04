@@ -1,5 +1,10 @@
 #include "WindGenerator.h"
 
+WindGenerator::WindGenerator(Vector3D windVelocity, Vector3D areaPosition,Vector3D areaSize, float k1, float k2)
+    : windVelocity(windVelocity), areaPosition(areaPosition),areaSize(areaSize), k1(k1), k2(k2)
+{
+}
+
 void WindGenerator::updateForce(Particle* particle, float dt)
 {
     PX_UNUSED(dt);
@@ -7,9 +12,13 @@ void WindGenerator::updateForce(Particle* particle, float dt)
 
     if (isInArea(pos))
     {
-        Vector3D relativeVelocity = windVelocity - particle->getVelocity();
+        // Diferencia entre la velocidad del viento y la particula
+        Vector3D diff = windVelocity - particle->getVelocity();
 
-        particle->addForce(relativeVelocity * coefficient);
+        // Formula de la fuerza del viento
+        Vector3D forceToApply =diff * k1 + diff * diff.magnitude() * k2;
+
+        particle->addForce(forceToApply);
     }
 }
 

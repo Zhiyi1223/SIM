@@ -4,12 +4,12 @@ class TornadoGenerator :
     public WindGenerator
 {
 public:
-    TornadoGenerator(float strength, float centerPull,Vector3D areaPosition, Vector3D areaSize,float coefficient = 1.0f);
+    TornadoGenerator(float K, float centerPull,Vector3D areaPosition, Vector3D areaSize,float k1, float k2 = 0.0f);
 
-    virtual void updateForce(Particle* particle, float dt) override;
+    void updateForce(Particle* particle, float dt) override;
 
 private:
-    float strength;
+    float K;
     float centerPull;
 };
 

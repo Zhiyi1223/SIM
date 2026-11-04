@@ -1,25 +1,31 @@
 #include "TornadoGenerator.h"
-TornadoGenerator::TornadoGenerator(float strength, float centerPull,Vector3D areaPosition, Vector3D areaSize, float coefficient)
-    : WindGenerator(Vector3D(0, 0, 0), areaPosition, areaSize, coefficient),strength(strength), centerPull(centerPull)
+TornadoGenerator::TornadoGenerator(float K, float centerPull,Vector3D areaPosition, Vector3D areaSize, float k1, float k2)
+    : WindGenerator(Vector3D(0, 0, 0), areaPosition,areaSize, k1, k2),K(K), centerPull(centerPull)
 {
 }
 
 void TornadoGenerator::updateForce(Particle* particle, float dt)
 {
+    PX_UNUSED(dt);
+
     Vector3D pos = particle->getPosition();
+
     if (isInArea(pos))
     {
-        // Centro de la zona del torbellino
+        //cento del volumen del tornado
         Vector3D center = areaPosition + areaSize * 0.5f;
 
-        // Velocidad tangencial del torbellino
+        // Velocidad del torbellino segun la posicion
         Vector3D tornadoVelocity(-(pos.z - center.z),centerPull - (pos.y - center.y),pos.x - center.x);
 
-        tornadoVelocity = tornadoVelocity * strength;
+        tornadoVelocity = tornadoVelocity * K;
 
-        // Fuerza según la diferencia de velocidades
-        Vector3D relativeVelocity = tornadoVelocity - particle->getVelocity();
+        // diff entre la velocidad del torbellino y la particula
+        Vector3D diff = tornadoVelocity - particle->getVelocity();
 
-        particle->addForce(relativeVelocity * coefficient);
+        // Formula de la fuerza del viento aplicada al torbellino
+        Vector3D forceToApply =diff * k1 + diff * diff.magnitude() * k2;
+
+        particle->addForce(forceToApply);
     }
 }
