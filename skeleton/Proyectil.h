@@ -6,12 +6,13 @@ class Proyectil :
 {
 
 public: 
-    Proyectil(Vector3D Pos, Vector3D Dir, float realVel, float simVel, float realMass); 
+    Proyectil(Vector3D Pos, Vector3D Dir,float realVel, float simVel, float realMass,float realGravity = -9.81f);
+
     void integrateEulerSemiImplicit(double t) override;
 
-private: 
-    float realMass; 
-    float simGravity; 
+private:
+    float realMass;
+    float simGravity;
 
-    void calculateValues(float realVel, float simVel);
+    void calculateValues(float realVel, float simVel,float realGravity);
 };

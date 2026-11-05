@@ -2,14 +2,33 @@
 
 void P12S::update(double dt)
 {
-    for (Proyectil* p : projectiles)
+    int i = 0;
+
+    //eliminas los que han terminado su vida
+    while (i < projectiles.size())
+    {
+        Proyectil* p = projectiles[i];
+
         p->integrateEulerSemiImplicit(dt);
+
+        if (!p->isAlive())
+        {
+            delete p;
+            projectiles.erase(projectiles.begin() + i);
+        }
+        else
+        {
+            i++;
+        }
+    }
 }
 
 void P12S:: cleanup() {
-    for (Proyectil* p : projectiles) {
+    for (Proyectil* p : projectiles)
+    {
         delete p;
     }
+    projectiles.clear();
 }
 
 void P12S::keyPress(unsigned char key,

@@ -19,5 +19,9 @@ private:
     ParticleGenerator fountain;
     ParticleGenerator chispas;
     ParticleGenerator niebla;
+
+    bool enableFountain = true;
+    bool enableChispas = false;
+    bool enableNiebla = false;
 };
 

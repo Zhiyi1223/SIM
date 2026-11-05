@@ -18,29 +18,31 @@ P2S::P2S(std::string name): Scene(name),
         Vector3D(1, 0.9f, 1),
         20, 5.0f)
 {
-    fountain.setAppearance(0.15f, Vector4(0.2f, 0.6f, 1.0f, 1.0f));
-    chispas.setAppearance(0.1f, Vector4(1.0f, 0.5f, 0.05f, 1.0f));
-    niebla.setAppearance(0.08f, Vector4(0.7f, 0.8f, 0.9f, 0.5f));
+    fountain.setAppearance(0.7f, Vector4(0.2f, 0.6f, 1.0f, 1.0f));
+    chispas.setAppearance(0.5f, Vector4(1.0f, 0.5f, 0.05f, 1.0f));
+    niebla.setAppearance(0.2f, Vector4(0.7f, 0.8f, 0.9f, 0.5f));
 
     niebla.setPositionVariation(Vector3D(10, 3, 10));
-
-    fountain.setEmitting(true);
-    chispas.setEmitting(false);
-    niebla.setEmitting(false);
 
 }
 
 void P2S::init()
 {
+    // Asignar los emisores al sistema de particulas
+    system.addParticleGenerator(&fountain);
+    system.addParticleGenerator(&chispas);
+    system.addParticleGenerator(&niebla);
+
+    fountain.setEmitting(true);
+    chispas.setEmitting(false);
+    niebla.setEmitting(false);
+
+    system.activateParticleGenerator(&fountain);
 }
 
 void P2S::update(double dt)
 {
-    fountain.update(system, dt);
-    chispas.update(system, dt);
-    niebla.update(system, dt);
-
-    system.update(static_cast<float>(dt));
+    system.update(dt);
 }
 
 void P2S::cleanup()
@@ -55,24 +57,33 @@ void P2S::keyPress(unsigned char key,
     switch (key)
     {
     case 'F':
-        fountain.setEmitting(true);
-        chispas.setEmitting(false);
-        niebla.setEmitting(false);
-        std::cout << "Fuente activa" << std::endl;
+        enableFountain = !enableFountain;
+
+        if (enableFountain)
+            system.activateParticleGenerator(&fountain);
+        else
+            system.deactivateParticleGenerator(&fountain);
+
         break;
 
     case 'C':
-        fountain.setEmitting(false);
-        chispas.setEmitting(true);
-        niebla.setEmitting(false);
-        std::cout << "Chispas activas" << std::endl;
+        enableChispas = !enableChispas;
+
+        if (enableChispas)
+            system.activateParticleGenerator(&chispas);
+        else
+            system.deactivateParticleGenerator(&chispas);
+
         break;
 
     case 'N':
-        fountain.setEmitting(false);
-        chispas.setEmitting(false);
-        niebla.setEmitting(true);
-        std::cout << "Niebla activa" << std::endl;
+        enableNiebla = !enableNiebla;
+
+        if (enableNiebla)
+            system.activateParticleGenerator(&niebla);
+        else
+            system.deactivateParticleGenerator(&niebla);
+
         break;
     }
 }
