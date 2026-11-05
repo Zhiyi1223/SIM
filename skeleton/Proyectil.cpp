@@ -22,6 +22,10 @@ void Proyectil::calculateValues(float realVel, float simVel,float realGravity)
         float gravityRatio = simVel / realVel;
         simGravity = realGravity * gravityRatio * gravityRatio;
 
+        // Calcular las energias cineticas
+        float realEnergy = 0.5f * realMass * realVel * realVel;
+        float simEnergy = 0.5f * getMass() * simVel * simVel;
+
         // Mostrar los resultados
         std::cout << "\nNuevo proyectil\n";
 
@@ -30,6 +34,9 @@ void Proyectil::calculateValues(float realVel, float simVel,float realGravity)
 
         std::cout << "Masa real: " << realMass << "\n";
         std::cout << "Masa simulada:" << getMass() << "\n";
+
+        std::cout << "Energia real:" << realEnergy << "\n";
+        std::cout << "Energia simulada:" << simEnergy << "\n";
 
         std::cout << "Gravedad real:" << realGravity << "\n";
         std::cout << "Gravedad simulada:" << simGravity << "\n";
