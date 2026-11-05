@@ -1,5 +1,6 @@
 #include "ParticleSystem.h"
 #include "ForceGenerator.h"
+#include "ParticleGenerator.h"
 
 ParticleSystem::ParticleSystem() : acceleration(0, -10, 0)
 {
@@ -12,6 +13,7 @@ ParticleSystem::~ParticleSystem()
 
     particles.clear();
     forceGenerators.clear();
+    particleGenerators.clear();
 }
 
 void ParticleSystem::createParticle(Particle* p)
@@ -21,6 +23,12 @@ void ParticleSystem::createParticle(Particle* p)
 
 void ParticleSystem::update(float dt)
 {
+    //acctualizar los emisores asignados al sistema
+    for (ParticleGenerator* generator : particleGenerators)
+    {
+        generator->update(*this, dt);
+    }
+
     int i = 0;
     //Para quedarnos en la misma pos cuando eliminamos un elemento 
     // y avanzar unicamente cuando conservamos la particla
@@ -77,5 +85,59 @@ void ParticleSystem::removeForceGenerator(ForceGenerator* generator)
         {
             i++;
         }
+    }
+}
+
+void ParticleSystem::addParticleGenerator(ParticleGenerator* generator)
+{
+    bool found = false;
+    int i = 0;
+
+    while (i < particleGenerators.size() && !found)
+    {
+        if (particleGenerators[i] == generator)
+            found = true;
+        else
+            i++;
+    }
+
+    if (!found)
+    {
+        particleGenerators.push_back(generator);
+        generator->setEmitting(false);
+    }
+}
+
+void ParticleSystem::activateParticleGenerator(ParticleGenerator* generator)
+{
+    int i = 0;
+    bool found = false;
+
+    while (i < particleGenerators.size() && !found)
+    {
+        if (particleGenerators[i] == generator)
+        {
+            generator->setEmitting(true);
+            found = true;
+        }
+        else
+            i++;
+    }
+}
+
+void ParticleSystem::deactivateParticleGenerator(ParticleGenerator* generator)
+{
+    int i = 0;
+    bool found = false;
+
+    while (i < particleGenerators.size() && !found)
+    {
+        if (particleGenerators[i] == generator)
+        {
+            generator->setEmitting(false);
+            found = true;
+        }
+        else
+            i++;
     }
 }

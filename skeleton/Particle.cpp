@@ -3,14 +3,21 @@
 
 using namespace physx;
 
-Particle::Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping, float LifeTime, float Radius, Vector4 Color):
-    vel(Vel), acc(Acc), damping(Damping), pose(PxTransform(Pos)), renderItem(nullptr), lifeTime(LifeTime), mass(1.0f), forceAcc(0, 0, 0)
+Particle::Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc,float Damping, float LifeTime, float Radius, Vector4 Color,bool createRenderItem)
+    : vel(Vel), acc(Acc), damping(Damping),pose(PxTransform(Pos)), renderItem(nullptr),lifeTime(LifeTime), mass(1.0f), forceAcc(0, 0, 0),
+    radius(Radius), color(Color)
 {
-    PxSphereGeometry sphere(0.5f);
-    PxShape* shape = CreateShape(sphere);
+    if (createRenderItem)
+    {
+        PxSphereGeometry sphere(radius);
+        PxShape* shape = CreateShape(sphere);
 
-    renderItem = new RenderItem(shape,&pose, Color);
-    shape->release();
+        if (shape != nullptr)
+        {
+            renderItem = new RenderItem(shape, &pose, color);
+            shape->release();
+        }
+    }
 }
 
 Particle::~Particle()
@@ -119,4 +126,18 @@ void Particle::clearForces()
 void Particle::applyForceGenerator(ForceGenerator& generator, float dt)
 {
     generator.updateForce(this, dt);
+}
+
+void Particle::setAppearance(float newRadius, Vector4 newColor)
+{
+    radius = newRadius;
+    color = newColor;
+}
+
+Particle* Particle::clone(Vector3D newPosition, Vector3D newVelocity) const
+{
+    Particle* p = new Particle(newPosition,newVelocity,acc,damping,lifeTime,radius,color);
+    p->setMass(mass);
+
+    return p;
 }

@@ -1,8 +1,9 @@
 #include "ParticleGenerator.h"
 
 ParticleGenerator::ParticleGenerator(Vector3D pos,Vector3D minVel, Vector3D maxVel,float rate, float life)
-    : position(pos), minVelocity(minVel), maxVelocity(maxVel),emissionRate(rate), lifeTime(life), accumulator(0),
-    randomEngine(std::random_device{}()), emitting(true), positionVariation(0, 0, 0), particleRadius(0.2f), particleColor(1, 1, 1, 1)
+    : position(pos), minVelocity(minVel), maxVelocity(maxVel),emissionRate(rate), accumulator(0),
+    randomEngine(std::random_device{}()), emitting(true), positionVariation(0, 0, 0),
+    modelParticle(pos,Vector3D(0, 0, 0),Vector3D(0, -10, 0),1.0f,life,0.2f,Vector4(1, 1, 1, 1),false)
 {
 }
 
@@ -49,7 +50,8 @@ void ParticleGenerator::update(ParticleSystem& system, float dt)
 
         Vector3D particlePosition(x, y, z);
 
-        Particle* p = new Particle(particlePosition,velocity,Vector3D(0, -10, 0),1.0f,lifeTime,particleRadius,particleColor);
+        //crear una copia independiente de la particula modelo
+        Particle* p = modelParticle.clone(particlePosition, velocity);
 
         system.createParticle(p);
     }
@@ -66,6 +68,5 @@ void ParticleGenerator::setPositionVariation(Vector3D variation)
 }
 void ParticleGenerator::setAppearance(float radius, Vector4 color)
 {
-    particleRadius = radius;
-    particleColor = color;
+    modelParticle.setAppearance(radius, color);
 }

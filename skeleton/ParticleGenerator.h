@@ -7,8 +7,7 @@
 class ParticleGenerator
 {
 public:
-    ParticleGenerator(Vector3D pos, Vector3D minVel,
-        Vector3D maxVel, float rate, float life);
+    ParticleGenerator(Vector3D pos, Vector3D minVel,Vector3D maxVel, float rate, float life);
 
     void update(ParticleSystem& system, float dt);
     void setEmitting(bool emitting);
@@ -21,7 +20,7 @@ private:
     Vector3D maxVelocity;
 
     float emissionRate;
-    float lifeTime;
+    //float lifeTime; pertenece al modelo
     float accumulator;
 
     std::mt19937 randomEngine;
@@ -29,7 +28,9 @@ private:
     //p2
     bool emitting;
     Vector3D positionVariation;
-    float particleRadius;
-    Vector4 particleColor;
+    /*float particleRadius;
+    Vector4 particleColor; ya pertenecen al modelo*/
+
+    Particle modelParticle;
 };
 

@@ -20,11 +20,17 @@ public:
 
     void setAcceleration(Vector3D acceleration);
 
+    void addParticleGenerator(ParticleGenerator* generator);
+    void activateParticleGenerator(ParticleGenerator* generator);
+    void deactivateParticleGenerator(ParticleGenerator* generator);
+
 private:
     std::vector<Particle*> particles;
 
     //p3
     std::vector<ForceGenerator*> forceGenerators;
     Vector3D acceleration;
+
+    std::vector<ParticleGenerator*> particleGenerators;
 };
 

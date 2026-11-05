@@ -7,7 +7,7 @@ class ForceGenerator;
 class Particle
 {
 public:
-	Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping, float LifeTime = 2.0f, float Radius = 0.2f, Vector4 Color = { 1, 1, 1, 1 });
+	Particle(Vector3D Pos, Vector3D Vel, Vector3D Acc, float Damping, float LifeTime = 2.0f, float Radius = 0.2f, Vector4 Color = { 1, 1, 1, 1 }, bool createRenderItem = true);
 	~Particle();
 
 	void integrate(double t);
@@ -31,12 +31,18 @@ public:
 
 	void applyForceGenerator(ForceGenerator& generator, float dt);
 
+	Particle* clone(Vector3D newPosition, Vector3D newVelocity) const;
+	void setAppearance(float newRadius, Vector4 newColor);
+
 private:
 	float lifeTime;
 
 	//p3
 	float mass;
 	Vector3D forceAcc;
+
+	float radius;
+	Vector4 color;
 
 protected:
 	Vector3 vel;
