@@ -42,13 +42,13 @@ void P12S::keyPress(unsigned char key,
     {
 
     case 'p': //pistola
-        realVel = 290.0f;
+        realVel = 300.0f;
         mass = 0.1f;
         simVel = 20.0f;
         break;
 
     case 'c':
-        realVel = 250.0f;
+        realVel = 200.0f;
         mass = 15.0f;
         simVel = 10.0f;
         break;

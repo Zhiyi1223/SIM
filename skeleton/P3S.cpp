@@ -2,8 +2,8 @@
 #include <iostream>
 
 P3S::P3S(std::string name): Scene(name), emitter(Vector3D(0, 7, 0),
-    Vector3D(-2, 3, -2),
-    Vector3D(2, 6, 2),
+    Vector3D(-5, 3, -5),
+    Vector3D(5, 6, 5),
     20, 10.0f),
     gravity(Vector3D(0, -10, 0)),
     weakGravity(Vector3D(0, -3, 0)),
@@ -15,14 +15,14 @@ P3S::P3S(std::string name): Scene(name), emitter(Vector3D(0, 7, 0),
     1.0f, 0.0f),
     
     tornado(
-    0.05f, 0.0f,
+   7.0f, 10.0f,
     Vector3D(-10, 0, -5),
     Vector3D(20, 15, 10),
     1.0f, 0.0f),
 
     explosion(Vector3D(0, 7, 0), 12.0f, 1.0f, 100000.0f)
 {
-    emitter.setAppearance(0.15f, Vector4(0.2f, 0.8f, 1.0f, 1.0f));
+    emitter.setAppearance(0.75f, Vector4(0.2f, 0.8f, 1.0f, 1.0f));
 }
 
 void P3S::init()

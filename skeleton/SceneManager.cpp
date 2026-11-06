@@ -4,6 +4,7 @@
 #include "P12S.h"
 #include "P2S.h"
 #include "P3S.h"
+#include "DemoWind.h"
 #include <iostream>
 
 // Solicita el cambio de escena. Si el nombre no está registrado, se escribe
@@ -75,8 +76,12 @@ void SceneManager::keyPress(unsigned char key, const physx::PxTransform& cameraT
         changeScene("P3S");
         return;
     }
+    if (key == 'd') {
+        changeScene("DemoWind");
+        return;
+    }
 
-    if (key == 'V') {
+    if (key == '.') {
         changeScene("EscenaVacia");
         return; // Consumimos el evento para que no interfiera con la escena
     }
